@@ -13,22 +13,22 @@ window.addEventListener('partialsLoaded', function () {
     }
 
     const items = [
-      { img: "../../images/imgs/people/0.jpg", title: "University", tag: "Bloemfontein, Free State", country: "South Africa" },
-      { img: "../../images/imgs/people/1.jpg", title: "Aucklands Park", tag: "Johannesburg, Gauteng", country: "South Africa" },
-      { img: "../../images/imgs/people/2.jpg", title: "Aucklands Park", tag: "Johannesburg, Gauteng", country: "South Africa" },
-      { img: "../../images/imgs/people/3.jpg", title: "Aucklands Park", tag: "Johannesburg, Gauteng", country: "South Africa" },
-      { img: "../../images/imgs/people/4.jpg", title: "Heuweloord", tag: "Centurion, Gauteng", country: "South Africa" },
-      { img: "../../images/imgs/people/5.jpg", title: "Mayibiye", tag: "Midrand, Gauteng", country: "South Africa" },
-      { img: "../../images/imgs/people/6.jpg", title: "Kgotsong", tag: "Matatiele, Eastern Cape", country: "South Africa" },
-      { img: "../../images/imgs/people/7.jpg", title: "Mayibuye", tag: "Midrand, Gauteng", country: "South Africa" },
-      { img: "../../images/imgs/people/8.jpg", title: "Queens Mercy", tag: "Matatiele, Eastern Cape", country: "South Africa" },
-      { img: "../../images/imgs/people/9.jpg", title: "Aucklands Park", tag: "Johannesburg, Gauteng", country: "South Africa" },
-      { img: "../../images/imgs/people/10.jpg", title: "Toyota Stadium", tag: "Bloemfontein, Free State", country: "South Africa" },
-      { img: "../../images/imgs/people/11.jpg", title: "Engen Mount Currie", tag: "Kokstad, Kwazulu-Natal", country: "South Africa" },
-      { img: "../../images/imgs/people/13.jpg", title: "Engen Mount Currie", tag: "Kokstad, Kwazulu-Natal", country: "South Africa" },
-      { img: "../../images/imgs/people/14.jpg", title: "Queens Mercy", tag: "Matatiele, Eastern Cape", country: "South Africa" },
-      { img: "../../images/imgs/people/15.jpg", title: "Maloto", tag: "Matatiele, Eastern Cape", country: "South Africa" },
-      { img: "../../images/imgs/people/16.jpg", title: "Xaxazana", tag: "Mount Fletcher, Eastern Cape", country: "South Africa" },
+      { img: "/images/imgs/people/0.jpg", title: "University", tag: "Bloemfontein, Free State", country: "South Africa" },
+      { img: "/images/imgs/people/1.jpg", title: "Aucklands Park", tag: "Johannesburg, Gauteng", country: "South Africa" },
+      { img: "/images/imgs/people/2.jpg", title: "Aucklands Park", tag: "Johannesburg, Gauteng", country: "South Africa" },
+      { img: "/images/imgs/people/3.jpg", title: "Aucklands Park", tag: "Johannesburg, Gauteng", country: "South Africa" },
+      { img: "/images/imgs/people/4.jpg", title: "Heuweloord", tag: "Centurion, Gauteng", country: "South Africa" },
+      { img: "/images/imgs/people/5.jpg", title: "Mayibiye", tag: "Midrand, Gauteng", country: "South Africa" },
+      { img: "/images/imgs/people/6.jpg", title: "Kgotsong", tag: "Matatiele, Eastern Cape", country: "South Africa" },
+      { img: "/images/imgs/people/7.jpg", title: "Mayibuye", tag: "Midrand, Gauteng", country: "South Africa" },
+      { img: "/images/imgs/people/8.jpg", title: "Queens Mercy", tag: "Matatiele, Eastern Cape", country: "South Africa" },
+      { img: "/images/imgs/people/9.jpg", title: "Aucklands Park", tag: "Johannesburg, Gauteng", country: "South Africa" },
+      { img: "/images/imgs/people/10.jpg", title: "Toyota Stadium", tag: "Bloemfontein, Free State", country: "South Africa" },
+      { img: "/images/imgs/people/11.jpg", title: "Engen Mount Currie", tag: "Kokstad, Kwazulu-Natal", country: "South Africa" },
+      { img: "/images/imgs/people/13.jpg", title: "Engen Mount Currie", tag: "Kokstad, Kwazulu-Natal", country: "South Africa" },
+      { img: "/images/imgs/people/14.jpg", title: "Queens Mercy", tag: "Matatiele, Eastern Cape", country: "South Africa" },
+      { img: "/images/imgs/people/15.jpg", title: "Maloto", tag: "Matatiele, Eastern Cape", country: "South Africa" },
+      { img: "/images/imgs/people/16.jpg", title: "Xaxazana", tag: "Mount Fletcher, Eastern Cape", country: "South Africa" },
     ];
 
     const total = items.length;
