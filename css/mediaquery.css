@@ -155,7 +155,10 @@
     padding: 3rem 1.75rem 2.5rem;
   }
 
-  .photo-label {
+  .hero-photo{
+    display: none;
+  }
+  /*.photo-label {
     color: var(--text-muted);
     background: var(--border);
     text-align: center;
@@ -163,7 +166,7 @@
     margin: 1.25rem;
     font-weight: 800;
     border-radius: 0.0625rem 2.5rem;
-  }
+  }*/
 
   .slider {
     height: 20rem;
@@ -378,6 +381,7 @@
 
   .exp-detail-wrapper.expanded {
     max-height: 100vh;
+    overflow: auto;
   }
 
   .exp-detail-content {
@@ -391,7 +395,6 @@
     max-height: 100vh;
     overflow-y: hidden;
   }
-
 }
 
 /* ── max 600px ──────────────────────────────────────── */
