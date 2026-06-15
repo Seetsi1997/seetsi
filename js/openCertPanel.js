@@ -8,7 +8,7 @@ window.addEventListener("partialsLoaded", function () {
       date: "Aug 2024",
       description:
         "Validates foundational knowledge of cloud concepts and Azure services.",
-      img: "../images/doc/azure-fundamentals.jpg",
+      img: "/images/doc/azure-fundamentals.jpg",
     },
     "azure-developer": {
       name: "Microsoft Certified: Azure Developer Associate",
@@ -17,7 +17,7 @@ window.addEventListener("partialsLoaded", function () {
       date: "Nov 2024",
       description:
         "Demonstrates expertise in designing, building, testing, and maintaining cloud solutions on Azure.",
-      img: "../images/doc/Developer-Associate.png",
+      img: "/images/doc/Developer-Associate.png",
     },
     "cyber-security": {
       name: "Introduction to Cybersecurity",
@@ -26,7 +26,7 @@ window.addEventListener("partialsLoaded", function () {
       date: "Mar 2026",
       description:
         "Covers foundational cybersecurity concepts including threats, vulnerabilities, and best practices.",
-      img: "../images/doc/Cyber-Security.png",
+      img: "/images/doc/Cyber-Security.png",
     },
     "intro-ai": {
       name: "Introduction to Artificial Intelligence",
@@ -35,7 +35,7 @@ window.addEventListener("partialsLoaded", function () {
       date: "Mar 2026",
       description:
         "Explores core AI concepts including machine learning, neural networks, and real-world applications.",
-      img: "../images/doc/Artificial-Intelligence.png",
+      img: "/images/doc/Artificial-Intelligence.png",
     },
     "intro-data-analytics": {
       name: "Introduction to Data Analytics",
@@ -44,7 +44,7 @@ window.addEventListener("partialsLoaded", function () {
       date: "Apr 2026",
       description:
         "Introduces data analytics principles, tools, and techniques for deriving insights from data.",
-      img: "../images/doc/Data-Analytics.jpg",
+      img: "/images/doc/Data-Analytics.jpg",
     },
   };
 
