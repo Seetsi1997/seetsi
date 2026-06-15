@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seetsi — Portfolio</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/mediaquery.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <div id="slot-navbar"></div>
+  <div id="slot-hero"></div>
+  <div id="slot-experience"></div>
+  <div id="slot-projects"></div>
+  <div id="slot-testimonial"></div>
+  <div id="slot-edu-skills"></div>
+  <div id="slot-footer"></div>
+  <div id="slot-popups"></div>
+
+  <script>
+    async function loadPartial(slotId, file) {
+      try {
+        const res = await fetch(file);
+        if (!res.ok) {
+          console.warn(`Partial not found: ${file}`);
+          return;
+        }
+        const html = await res.text();
+        document.getElementById(slotId).innerHTML = html;
+      } catch (err) {
+        console.warn(`Failed to load partial: ${file}`, err);
+      }
+    }
+
+    async function init() {
+      await loadPartial("slot-navbar", "partials/navbar.html");
+      await loadPartial("slot-hero", "partials/hero.html");
+      await loadPartial("slot-experience", "partials/experience.html");
+      await loadPartial("slot-projects", "partials/projects.html");
+      await loadPartial("slot-testimonial", "partials/testimonial.html");
+      await loadPartial("slot-edu-skills", "partials/edu-skills.html");
+      await loadPartial("slot-footer", "partials/footer.html");
+      await loadPartial("slot-popups", "partials/popups.html");
+
+      // Now load and execute all dependent scripts
+      const scripts = [
+        "../js/script.js",
+        "../js/scroll-lock.js",
+        "../js/openEduPopup.js",
+        "../js/openDoc.js",
+        "../js/openCertPanel.js",
+        "../js/dateFooter.js",
+        "../js/experienceSlider.js",
+        "../js/projectSlider.js",
+        "../js/testimonialSlider.js",
+        "../js/connectionSlider.js",
+        "../js/skillsView.js"
+
+      ];
+
+      for (const src of scripts) {
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = src;
+          s.onload = resolve;
+          s.onerror = reject;
+          document.body.appendChild(s);
+        });
+      }
+
+      // Finally dispatch the 'partialsLoaded' event (optional, since scripts already ran)
+      window.dispatchEvent(new Event("partialsLoaded"));
+    }
+
+    init().catch(function (err) {
+      console.error('Portfolio failed to initialise:', err);
+    });
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,214 @@
+<!-- Overlay -->
+<div class="edu-overlay" id="eduOverlay" onclick="closeEduPopup()"></div>
+
+<!-- Shaper Popup -->
+<div class="edu-popup" id="popup-shaper">
+  <div class="edu-popup-header">
+    <button class="edu-popup-close" onclick="closeEduPopup()">
+      <img src="../images/icons/cancel.png" alt="Close" />
+    </button>
+    <span class="edu-popup-badge completed">Completed</span>
+  </div>
+  <div class="edu-popup-school">Shaper</div>
+  <div class="edu-popup-degree">Occupational Certificate</div>
+  <hr class="edu-popup-divider" />
+  <div class="edu-popup-cards">
+    <div class="edu-popup-card">
+      <span class="card-label">Completed</span>
+      <span class="card-value">March 2026</span>
+    </div>
+    <div class="edu-popup-card">
+      <span class="card-label">Level</span>
+      <span class="card-value">6</span>
+    </div>
+  </div>
+  <div class="edu-popup-desc">
+    In Software Engineering, I was introduced to Spring Boot and Angular,
+    which helped me grow into a junior full-stack developer. Although I had
+    not previously worked with these frameworks, I had a foundational
+    understanding of Java that supported my learning. During my Occupational
+    Certificate at Shaper, I applied these technologies in a practical
+    project, where we built an application using Spring Boot and Angular,
+    with data stored and managed in a PostgreSQL database.
+  </div>
+</div>
+
+<!-- CUT Popup -->
+<div class="edu-popup" id="popup-cut">
+  <div class="edu-popup-header">
+    <button class="edu-popup-close" onclick="closeEduPopup()">
+      <img src="../images/icons/cancel.png" alt="Close" />
+    </button>
+    <span class="edu-popup-badge completed">Completed</span>
+  </div>
+  <div class="edu-popup-school">Central University of Technology</div>
+  <div class="edu-popup-degree">Diploma</div>
+  <hr class="edu-popup-divider" />
+  <div class="edu-popup-cards">
+    <div class="edu-popup-card">
+      <span class="card-label">Graduated</span>
+      <span class="card-value">February 2022</span>
+    </div>
+    <div class="edu-popup-card">
+      <span class="card-label">Level</span>
+      <span class="card-value">6</span>
+    </div>
+  </div>
+  <div class="edu-popup-desc">
+    Covered core IT fundamentals, including programming and database
+    management, with a strong focus on developing coding skills. I gained
+    solid knowledge in software development, technical programming, and
+    software engineering. I consistently achieved marks above 70% in
+    software-related subjects, which reflects my strength in this area. In
+    database management, I earned 99% as my final mark, which I'm especially
+    proud of. I remain committed to continuously improving my skills and
+    knowledge. As part of our integrated learning, we worked on a mobile
+    application project using technical programming. The app was designed to
+    support students by providing a platform where they could view and track
+    their academic marks within the institution. We developed the
+    application using Dart, Flutter, and Firebase.
+  </div>
+  <button onclick="openViewer('jpg', 'Diploma.jpg', '../images/doc/Diploma.jpg')" class="open-view-btn">
+    View
+  </button>
+</div>
+
+<!-- Torque IT Popup -->
+<div class="edu-popup" id="popup-torque">
+  <div class="edu-popup-header">
+    <button class="edu-popup-close" onclick="closeEduPopup()">
+      <img src="../images/icons/cancel.png" alt="Close" />
+    </button>
+    <span class="edu-popup-badge completed">Completed</span>
+  </div>
+  <div class="edu-popup-school">Torque IT</div>
+  <div class="edu-popup-degree">National Certificate</div>
+  <hr class="edu-popup-divider" />
+  <div class="edu-popup-cards">
+    <div class="edu-popup-card">
+      <span class="card-label">Completed</span>
+      <span class="card-value">February 2019</span>
+    </div>
+    <div class="edu-popup-card">
+      <span class="card-label">Level</span>
+      <span class="card-value">4</span>
+    </div>
+  </div>
+  <div class="edu-popup-desc">
+    Trained in hardware troubleshooting, operating systems, network
+    fundamentals, and end-user technical support.
+  </div>
+  <button onclick="openViewer('jpg', 'National-Certificate.jpg', '../images/doc/National-Certificate.jpg')"
+    class="open-view-btn">
+    View
+  </button>
+</div>
+
+<!-- Sidinane Popup -->
+<div class="edu-popup" id="popup-sidinane">
+  <div class="edu-popup-header">
+    <button class="edu-popup-close" onclick="closeEduPopup()">
+      <img src="../images/icons/cancel.png" alt="Close" />
+    </button>
+    <span class="edu-popup-badge completed">Completed</span>
+  </div>
+  <div class="edu-popup-school">Sidinane Senior Secondary School</div>
+  <div class="edu-popup-degree">Matriculated</div>
+  <hr class="edu-popup-divider" />
+  <div class="edu-popup-cards">
+    <div class="edu-popup-card">
+      <span class="card-label">Completed</span>
+      <span class="card-value">November 2017</span>
+    </div>
+    <div class="edu-popup-card">
+      <span class="card-label">Level</span>
+      <span class="card-value">4</span>
+    </div>
+  </div>
+  <div class="edu-popup-desc">
+    I successfully matriculated with a Bachelor's pass, providing a strong
+    academic foundation for further tertiary studies. Although I initially
+    aimed to pursue Business Management at university, my application was
+    unsuccessful. This led me to take a different path through a
+    learnership, where I began my journey in IT. This experience opened new
+    opportunities and strengthened my passion for technology and continuous
+    learning.
+  </div>
+  <button onclick="openViewer('jpg', 'Matric.jpg', '../images/doc/Matric.jpg')" class="open-view-btn">
+    View
+  </button>
+</div>
+
+<!-- Global Viewer Backdrop -->
+<div class="viewer-backdrop" id="viewerBackdrop">
+  <div class="viewer-box">
+    <div class="viewer-topbar">
+      <span class="viewer-title" id="viewerTitle">Document</span>
+      <span class="viewer-badge" id="viewerBadge">PDF</span>
+      <button class="viewer-close" onclick="closeViewer()">
+        <img src="../images/icons/cancel.png" alt="Close" />
+      </button>
+    </div>
+    <div class="viewer-body" id="viewerBody">
+      <div class="no-save-overlay" id="noSaveOverlay"></div>
+    </div>
+    <div class="viewer-footer">
+      <div class="footer-dot"></div>
+      <span class="footer-text">View only — downloading and saving is disabled</span>
+    </div>
+    <div class="toast" id="toast">Action not allowed</div>
+  </div>
+</div>
+
+<!-- Cert Side Drawer -->
+<div class="cert-overlay" id="certOverlay" onclick="closeCertDrawer()"></div>
+
+<div class="cert-drawer" id="certDrawer">
+  <div class="cert-drawer-header">
+    <span class="cert-drawer-badge" id="drawerBadge"></span>
+    <button class="cert-drawer-close" id="certDrawerClose" onclick="closeCertDrawer()" aria-label="Close">
+      <img src="../../images/icons/cancel.png" alt="Close" />
+    </button>
+  </div>
+
+  <div class="cert-drawer-company" id="drawerCompany"></div>
+  <hr class="cert-drawer-divider" />
+
+  <div class="cert-drawer-body">
+    <img id="drawerImg" src="" alt="Certificate" />
+    <h3 id="drawerName" class="cert-drawer-name"></h3>
+    <p id="drawerDate" class="cert-drawer-date"></p>
+    <p id="drawerDesc" class="cert-drawer-desc"></p>
+  </div>
+
+  <div class="cert-drawer-footer">
+    <div class="cert-footer-dot"></div>
+    <span class="cert-footer-text">View only — downloading and saving is disabled</span>
+  </div>
+</div>
+
+<!-- Skill Side Drawer -->
+<div class="skill-overlay" id="skillOverlay"></div>
+
+<div class="skill-drawer" id="skillDrawer">
+  <div class="skill-drawer-header">
+    <div class="skill-drawer-category" id="skillDrawerCategory"></div>
+    <button class="skill-drawer-close" id="skillDrawerClose" aria-label="Close">
+      <img src="../../images/icons/cancel.png" alt="Close" />
+    </button>
+  </div>
+
+  <!--<div class="skill-drawer-category" id="skillDrawerCategory"></div>-->
+  <hr class="skill-drawer-divider" />
+
+  <div class="skill-drawer-body">
+    <h3 id="skillDrawerName" class="skill-drawer-name"></h3>
+    <p id="skillDrawerDesc" class="skill-drawer-desc"></p>
+    <div id="skillDrawerTags" class="skill-drawer-tags"></div>
+  </div>
+
+  <div class="skill-drawer-footer">
+    <div class="cert-footer-dot"></div>
+    <span class="cert-footer-text">Part of Seetsi's technical stack</span>
+  </div>
+</div>

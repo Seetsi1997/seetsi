@@ -1,0 +1,88 @@
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a class="nav-logo" href="#home">G<em>.</em>Seetsi</a>
+
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#testimonial">Testimonial</a></li>
+
+    <!-- Education dropdown -->
+    <li class="has-dropdown">
+      <a href="#education" class="dropdown-toggle">Education 
+       <span class="caret">
+           <img src="../../images/icons/arrow_drop_down.png" alt="Arrow" class="caret-img"/>
+        </span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#education">Education</a></li>
+        <li><a href="#certification">Certifications</a></li>
+      </ul>
+    </li>
+
+    <!-- Skills dropdown -->
+    <li class="has-dropdown">
+      <a href="#skills" class="dropdown-toggle">Skills 
+       <span class="caret">
+           <img src="../../images/icons/arrow_drop_down.png" alt="Arrow" class="caret-img"/>
+      </span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#skills">Technical Skills</a></li>
+        <li><a href="#connection">Connections</a></li>
+      </ul>
+    </li>
+
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <ul>
+    <li><a href="#home" onclick="navTo(event, '#home')">Home</a></li>
+    <li><a href="#experience" onclick="navTo(event, '#experience')">Experience</a></li>
+    <li><a href="#projects" onclick="navTo(event, '#projects')">Projects</a></li>
+    <li><a href="#testimonial" onclick="navTo(event, '#testimonial')">Testimonials</a></li>
+
+    <!-- Mobile Education accordion -->
+    <li class="mobile-accordion">
+      <button class="mobile-acc-toggle" aria-expanded="false">
+        Education 
+        <span class="caret">
+          <img src="../../images/icons/arrow_drop_down.png" alt="Arrow" class="arrow-right"/>
+        </span>
+      </button>
+      <ul class="mobile-acc-menu">
+        <li><a href="#education" onclick="navTo(event, '#education')">Education</a></li>
+        <li><a href="#certification" onclick="navTo(event, '#certification')">Certifications</a></li>
+      </ul>
+    </li>
+
+    <!-- Mobile Skills accordion -->
+    <li class="mobile-accordion">
+      <button class="mobile-acc-toggle" aria-expanded="false">
+        Skills 
+        <span class="caret">
+          <img src="../../images/icons/arrow_drop_down.png" alt="Arrow" class="arrow-right"/>
+        </span>
+      </button>
+      <ul class="mobile-acc-menu">
+        <li><a href="#skills" onclick="navTo(event, '#skills')">Technical Skills</a></li>
+        <li><a href="#connection" onclick="navTo(event, '#connection')">Connections</a></li>
+      </ul>
+    </li>
+
+    <li><a href="#contact" onclick="navTo(event, '#contact')">Contact</a></li>
+  </ul>
+
+  <div class="mobile-nav-time">
+    <div class="nav-cv">
+      <a href="../../images/doc/GanethCV.pdf" target="_blank" rel="noopener">Download CV</a>
+    </div>
+    <span id="navTime"></span>
+  </div>
+</nav>
