@@ -8,7 +8,7 @@ window.addEventListener("partialsLoaded", function () {
       date: "Aug 2024",
       description:
         "Validates foundational knowledge of cloud concepts and Azure services.",
-      img: "/images/doc/Azure-Fundamentals.jpg",
+      img: "/images/doc/Azure-Fundamentals.JPG",
     },
     "azure-developer": {
       name: "Microsoft Certified: Azure Developer Associate",
