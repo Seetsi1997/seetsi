@@ -1,5 +1,7 @@
 {
+  "outputDirectory": "html",
   "rewrites": [
+    { "source": "/images/(.*)", "destination": "/images/$1" },
     { "source": "/(.*)", "destination": "/html/$1" }
   ]
 }
