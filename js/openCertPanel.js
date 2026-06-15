@@ -17,7 +17,7 @@ window.addEventListener("partialsLoaded", function () {
       date: "Nov 2024",
       description:
         "Demonstrates expertise in designing, building, testing, and maintaining cloud solutions on Azure.",
-      img: "/images/doc/Developer-Associate.png",
+      img: "/images/doc/Developer-Associate.PNG",
     },
     "cyber-security": {
       name: "Introduction to Cybersecurity",
@@ -26,7 +26,7 @@ window.addEventListener("partialsLoaded", function () {
       date: "Mar 2026",
       description:
         "Covers foundational cybersecurity concepts including threats, vulnerabilities, and best practices.",
-      img: "/images/doc/Cyber-Security.png",
+      img: "/images/doc/Cyber-Security.PNG",
     },
     "intro-ai": {
       name: "Introduction to Artificial Intelligence",
@@ -35,7 +35,7 @@ window.addEventListener("partialsLoaded", function () {
       date: "Mar 2026",
       description:
         "Explores core AI concepts including machine learning, neural networks, and real-world applications.",
-      img: "/images/doc/Artificial-Intelligence.png",
+      img: "/images/doc/Artificial-Intelligence.PNG",
     },
     "intro-data-analytics": {
       name: "Introduction to Data Analytics",
