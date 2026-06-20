@@ -34,16 +34,14 @@ window.addEventListener('partialsLoaded', function () {
     const total = items.length;
 
     // ----- State -----
-    // current tracks the REAL index (0 to total-1)
-    // internally we render at position current+1 because index 0 is the clone of the last slide
-    let current = 0;
+    let current = 0;           // real index (0 to total-1)
     let autoTimer = null;
     let isDragging = false;
     let dragStart = 0;
-    let isJumping = false;  // true while silent jump is in progress
+    let isJumping = false;     // true while silently resetting position
 
     // ----- Build slides -----
-    // Structure: [clone of last] [0] [1] ... [total-1] [clone of first]
+    // DOM order: [clone of last] [0] [1] ... [total-1] [clone of first]
     function makeSlide(item) {
       const slide = document.createElement('div');
       slide.className = 'slide';
@@ -57,18 +55,16 @@ window.addEventListener('partialsLoaded', function () {
       return slide;
     }
 
-    // Clone of last slide at the front
+    // Leading clone (last slide)
     track.appendChild(makeSlide(items[total - 1]));
-
     // All real slides
     items.forEach(item => track.appendChild(makeSlide(item)));
-
-    // Clone of first slide at the end
+    // Trailing clone (first slide)
     track.appendChild(makeSlide(items[0]));
 
     // Total DOM slides = total + 2
-    // Real slides sit at DOM positions 1 to total
-    // current=0 → DOM position 1, current=total-1 → DOM position total
+    // Real slides are at positions 1 to total (inclusive)
+    // Leading clone at position 0, trailing clone at position total+1
 
     // ----- Pips (real slides only) -----
     items.forEach((_, idx) => {
@@ -77,24 +73,15 @@ window.addEventListener('partialsLoaded', function () {
       pips.appendChild(pip);
     });
 
-    // ----- Position helpers -----
+    // ----- Helpers -----
     function domIndex() {
-      return current + 1; // offset by 1 because of the leading clone
+      return current + 1; // because of leading clone
     }
 
     function getX(pos) {
       return -pos * viewport.clientWidth;
     }
 
-    // ----- Sync pips & counter -----
-    function syncUI() {
-      counter.textContent = `${current + 1} / ${total}`;
-      document.querySelectorAll('.conn-pip').forEach((p, i) =>
-        p.classList.toggle('active', i === current)
-      );
-    }
-
-    // ----- Move track -----
     function moveTo(pos, animate) {
       track.style.transition = animate
         ? 'transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
@@ -102,30 +89,71 @@ window.addEventListener('partialsLoaded', function () {
       track.style.transform = `translateX(${getX(pos)}px)`;
     }
 
-    // ----- Go to real index -----
+    function syncUI() {
+      counter.textContent = `${current + 1} / ${total}`;
+      document.querySelectorAll('.conn-pip').forEach((p, i) =>
+        p.classList.toggle('active', i === current)
+      );
+    }
+
+    // ----- Core navigation -----
     function goTo(index, instant = false) {
-      current = ((index % total) + total) % total; // safe wrap
+      // Normalise index to real range
+      const target = ((index % total) + total) % total;
+
+      // If we are already at target, just update UI and position (no animation)
+      if (target === current && !instant) {
+        moveTo(domIndex(), false);
+        return;
+      }
+
+      // ---- Edge cases for seamless infinite loop ----
+      // Going from first to previous (wrapping to last)
+      if (current === 0 && target === total - 1) {
+        // 1. Instantly jump to leading clone (pos 0)
+        isJumping = true;
+        current = total - 1;   // update real index to last
+        syncUI();
+        moveTo(0, false);      // no transition
+        track.offsetHeight;    // force reflow
+        isJumping = false;
+        // 2. Animate from clone (pos 0) to real last (pos total)
+        requestAnimationFrame(() => {
+          moveTo(total, true); // animate to real last
+        });
+        return;
+      }
+
+      // Going from last to next (wrapping to first)
+      if (current === total - 1 && target === 0) {
+        // 1. Instantly jump to trailing clone (pos total+1)
+        isJumping = true;
+        current = 0;           // update real index to first
+        syncUI();
+        moveTo(total + 1, false);
+        track.offsetHeight;
+        isJumping = false;
+        // 2. Animate from clone (pos total+1) to real first (pos 1)
+        requestAnimationFrame(() => {
+          moveTo(1, true);
+        });
+        return;
+      }
+
+      // ---- Normal transition ----
+      current = target;
       syncUI();
       moveTo(domIndex(), !instant);
     }
 
-    // ----- After animating to a clone, silently jump to the real slide -----
+    // ----- Transition end listener (handle clone landing) -----
     track.addEventListener('transitionend', () => {
       if (isJumping) return;
 
       const pos = domIndex();
 
-      // Landed on trailing clone (clone of first) → jump to real first
-      if (pos === total + 1) {
-        isJumping = true;
-        current = 0;
-        syncUI();
-        moveTo(1, false);
-        track.offsetHeight;
-        isJumping = false;
-      }
-
-      // Landed on leading clone (clone of last) → jump to real last
+      // Landed on leading clone (pos 0) – should only happen if something went wrong,
+      // but we handle it by jumping to real last.
       if (pos === 0) {
         isJumping = true;
         current = total - 1;
@@ -133,6 +161,18 @@ window.addEventListener('partialsLoaded', function () {
         moveTo(total, false);
         track.offsetHeight;
         isJumping = false;
+        return;
+      }
+
+      // Landed on trailing clone (pos total+1) – jump to real first.
+      if (pos === total + 1) {
+        isJumping = true;
+        current = 0;
+        syncUI();
+        moveTo(1, false);
+        track.offsetHeight;
+        isJumping = false;
+        return;
       }
     });
 
@@ -140,7 +180,7 @@ window.addEventListener('partialsLoaded', function () {
     function next() { goTo(current + 1); }
     function prev() { goTo(current - 1); }
 
-    // ----- Auto slide -----
+    // ----- Auto play -----
     function startAuto() {
       if (autoTimer) clearInterval(autoTimer);
       autoTimer = setInterval(() => {
@@ -183,12 +223,11 @@ window.addEventListener('partialsLoaded', function () {
       startAuto();
     }
 
-    // Touch
+    // ----- Event listeners -----
     viewport.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX), { passive: true });
     viewport.addEventListener('touchmove', e => { onDragMove(e.touches[0].clientX); e.preventDefault(); }, { passive: false });
     viewport.addEventListener('touchend', e => onDragEnd(e.changedTouches[0].clientX));
 
-    // Mouse
     viewport.addEventListener('mousedown', e => { e.preventDefault(); onDragStart(e.clientX); });
     window.addEventListener('mousemove', e => { if (isDragging) onDragMove(e.clientX); });
     window.addEventListener('mouseup', e => { if (isDragging) onDragEnd(e.clientX); });
@@ -202,7 +241,7 @@ window.addEventListener('partialsLoaded', function () {
       if (!isDragging) moveTo(domIndex(), false);
     });
 
-    // ----- Start -----
+    // ----- Initialise -----
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         goTo(0, true);

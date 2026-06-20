@@ -66,6 +66,85 @@ body::before {
   z-index: 9999;
 }
 
+/*══════════════════════════════════════ SKELETON ══════════════════════════════════════*/
+  #skeleton-loader {
+    position: fixed;
+    inset: 0;                    
+    width: 100%;
+    height: 100%;
+    background: #0d1117;       
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: none;     
+  }
+
+  #skeleton-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  #skeleton-loader::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 1;                 
+  }
+
+  
+  .loader-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;      
+    z-index: 2;
+  }
+
+  .loader-label {
+    color: var(--expired);
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
+
+  .dot-loader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dots {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--muted, #58a6ff);
+    animation: dot-bounce 1.4s infinite ease-in-out both;
+  }
+
+  .dots:nth-child(1) { animation-delay: -0.32s; }
+  .dots:nth-child(2) { animation-delay: -0.16s; }
+  .dots:nth-child(3) { animation-delay: 0s; }
+
+  @keyframes dot-bounce {
+    0%, 80%, 100% {
+      transform: scale(0.4);
+      opacity: 0.4;
+    }
+    40% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
 /* ══════════════════════════════════════ NAVBAR */
 .navbar {
   position: fixed;

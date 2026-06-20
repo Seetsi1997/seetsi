@@ -13,6 +13,18 @@
 </head>
 
 <body>
+  <!-- Loader -->
+  <div id="skeleton-loader">
+    <div class="loader-wrapper">
+      <div class="dot-loader">
+        <span class="dots"></span>
+        <span class="dots"></span>
+        <span class="dots"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content slots -->
   <div id="slot-navbar"></div>
   <div id="slot-hero"></div>
   <div id="slot-experience"></div>
@@ -23,6 +35,29 @@
   <div id="slot-popups"></div>
 
   <script>
+    // ---- RECORD START TIME ----
+    const startTime = Date.now();
+    const MIN_DISPLAY_MS = 9000;        // 9 seconds
+    const SAFETY_TIMEOUT_MS = MIN_DISPLAY_MS + 10000; // 19 seconds (safe buffer)
+
+    // ---- Helper to hide loader only after minimum time ----
+    function hideLoaderWhenReady() {
+      const loader = document.getElementById('skeleton-loader');
+      if (!loader) return;
+
+      const elapsed = Date.now() - startTime;
+      const remaining = MIN_DISPLAY_MS - elapsed;
+
+      if (remaining <= 0) {
+        loader.classList.add('hidden');
+      } else {
+        setTimeout(() => {
+          loader.classList.add('hidden');
+        }, remaining);
+      }
+    }
+
+    // ---- Partial loading ----
     async function loadPartial(slotId, file) {
       try {
         const res = await fetch(file);
@@ -71,13 +106,24 @@
         });
       }
 
+      hideLoaderWhenReady();
       window.dispatchEvent(new Event("partialsLoaded"));
     }
 
+    // ---- Start loading ----
     init().catch(function (err) {
       console.error('Portfolio failed to initialise:', err);
+      hideLoaderWhenReady();
     });
 
+    // ---- Safety fallback (much longer than min display) ----
+    setTimeout(function() {
+      const loader = document.getElementById('skeleton-loader');
+      if (loader && !loader.classList.contains('hidden')) {
+        loader.classList.add('hidden');
+        console.warn('Loader hidden after safety timeout');
+      }
+    }, SAFETY_TIMEOUT_MS);
   </script>
 </body>
 

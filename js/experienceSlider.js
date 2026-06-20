@@ -1,5 +1,7 @@
-window.addEventListener('partialsLoaded', function () {
+(function () {
+  'use strict';
 
+  // ─── Data ─────────────────────────────────────────────────────────
   const experiences = [
     {
       title: "Junior Full-Stack Developer",
@@ -36,117 +38,15 @@ window.addEventListener('partialsLoaded', function () {
 
   const CHEVRON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
 
-  /* ── shared state ── */
-  let slides = [];
-  let current = 0;
-  let sliderWrap = null;
-
-  function updateWrapperHeight() {
-    if (sliderWrap && slides[current]) {
-      sliderWrap.style.height = slides[current].offsetHeight + 'px';
-    }
-  }
-
-  function updateLayout() {
-    const layout = document.querySelector('.exp-layout');
-    if (!layout || !slides[current]) return;
-    const cardHeight = slides[current].offsetHeight;
-    layout.classList.toggle('compact', cardHeight < 350);
-  }
-
+  // ─── Helpers ──────────────────────────────────────────────────────
   function esc(str) {
     if (!str) return '';
     return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
   }
 
-  function renderSlides() {
+  // ─── Main initialiser ────────────────────────────────────────────
+  function initExperienceSlider() {
     const container = document.getElementById('expSlides');
-    if (!container) return;
-    container.innerHTML = '';
-
-    const isMobile = window.innerWidth <= 768;
-
-    experiences.forEach((exp, idx) => {
-      const card = document.createElement('div');
-      card.className = 'exp-card';
-      card.setAttribute('data-idx', idx);
-
-      const visibleBullets = isMobile && exp.mobileLimit
-        ? exp.bullets.slice(0, exp.mobileLimit)
-        : exp.bullets;
-
-      card.innerHTML = `
-        <div class="card-header">
-          <span class="job-title">${esc(exp.title)}</span>
-          <span class="date-badge">
-            ${esc(exp.dateStart)}
-            <span class="date-dot"></span>
-            ${esc(exp.dateEnd)}
-          </span>
-        </div>
-        <div class="company-row">
-          <span class="company-name">${esc(exp.company)}</span>
-          <span class="dot-divider"></span>
-          <span class="company-location">${esc(exp.location)}</span>
-        </div>
-        <ul class="exp-bullets">
-          ${visibleBullets.map(b => `<li>${esc(b)}</li>`).join('')}
-        </ul>
-        <div class="tag-row">
-          ${exp.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}
-        </div>
-        <button class="show-more-btn" type="button">
-          More
-          <span class="btn-chevron">${CHEVRON_SVG}</span>
-        </button>
-        <div class="exp-detail-wrapper">
-          <div class="exp-detail-inner">
-            <p class="detail-text">${esc(exp.detailedExplanation)}</p>
-            <ul class="detail-bullets">
-              ${exp.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
-            </ul>
-          </div>
-        </div>
-      `;
-
-      /* toggle handler */
-      const btn = card.querySelector('.show-more-btn');
-      const wrapper = card.querySelector('.exp-detail-wrapper');
-
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = wrapper.classList.contains('expanded');
-
-        /* close all others first */
-        document.querySelectorAll('.exp-detail-wrapper.expanded').forEach(w => {
-          if (w !== wrapper) {
-            w.classList.remove('expanded');
-            const otherBtn = w.closest('.exp-card').querySelector('.show-more-btn');
-            if (otherBtn) {
-              otherBtn.classList.remove('open');
-              otherBtn.childNodes[0].textContent = 'More ';
-            }
-          }
-        });
-
-        /* toggle current */
-        wrapper.classList.toggle('expanded', !isOpen);
-        btn.classList.toggle('open', !isOpen);
-        btn.childNodes[0].textContent = isOpen ? 'More ' : 'Less ';
-
-        /* wait for detail panel transition then update height and layout */
-        setTimeout(() => {
-          updateWrapperHeight();
-          updateLayout();
-        }, 500);
-      });
-
-      container.appendChild(card);
-    });
-  }
-
-  function initSlider() {
-    const slidesContainer = document.getElementById('expSlides');
     const dotsContainer = document.getElementById('expDots');
     const prevBtn = document.getElementById('expPrev');
     const nextBtn = document.getElementById('expNext');
@@ -154,32 +54,123 @@ window.addEventListener('partialsLoaded', function () {
     const totalSpan = document.getElementById('expTotal');
     const progressFill = document.getElementById('expProgress');
 
-    /* assign to outer shared state */
-    sliderWrap = document.querySelector('.exp-slider-wrap');
-    slides = document.querySelectorAll('.exp-card');
+    if (!container || !dotsContainer || !prevBtn || !nextBtn) {
+      console.warn('Experience slider elements not found – aborting.');
+      return;
+    }
 
-    if (!slides.length) return;
+    // ── Render cards ──────────────────────────────────────────────
+    function renderSlides() {
+      const isMobile = window.innerWidth <= 768;
+      container.innerHTML = '';
 
-    const total = slides.length;
+      experiences.forEach((exp, idx) => {
+        const card = document.createElement('div');
+        card.className = 'exp-card';
+        card.setAttribute('data-idx', idx);
 
-    totalSpan.textContent = String(total).padStart(2, '0');
+        const visibleBullets = isMobile && exp.mobileLimit
+          ? exp.bullets.slice(0, exp.mobileLimit)
+          : exp.bullets;
 
-    /* dots */
-    dotsContainer.innerHTML = '';
-    for (let i = 0; i < total; i++) {
-      const dot = document.createElement('button');
-      dot.className = 'exp-dot' + (i === 0 ? ' active' : '');
-      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-      dot.addEventListener('click', () => goTo(i));
-      dotsContainer.appendChild(dot);
+        card.innerHTML = `
+          <div class="card-header">
+            <span class="job-title">${esc(exp.title)}</span>
+            <span class="date-badge">
+              ${esc(exp.dateStart)}
+              <span class="date-dot"></span>
+              ${esc(exp.dateEnd)}
+            </span>
+          </div>
+          <div class="company-row">
+            <span class="company-name">${esc(exp.company)}</span>
+            <span class="dot-divider"></span>
+            <span class="company-location">${esc(exp.location)}</span>
+          </div>
+          <ul class="exp-bullets">
+            ${visibleBullets.map(b => `<li>${esc(b)}</li>`).join('')}
+          </ul>
+          <div class="tag-row">
+            ${exp.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}
+          </div>
+          <button class="show-more-btn" type="button">
+            <span class="btn-text">More</span>
+            <span class="btn-chevron">${CHEVRON_SVG}</span>
+          </button>
+          <div class="exp-detail-wrapper">
+            <div class="exp-detail-inner">
+              <p class="detail-text">${esc(exp.detailedExplanation)}</p>
+              <ul class="detail-bullets">
+                ${exp.bullets.map(b => `<li>${esc(b)}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+        `;
+
+        // ── Toggle logic ────────────────────────────────────────
+        const btn = card.querySelector('.show-more-btn');
+        const wrapper = card.querySelector('.exp-detail-wrapper');
+        const btnText = btn.querySelector('.btn-text');
+
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = wrapper.classList.contains('expanded');
+
+          // Close any other open detail
+          document.querySelectorAll('.exp-detail-wrapper.expanded').forEach(w => {
+            if (w !== wrapper) {
+              w.classList.remove('expanded');
+              const otherBtn = w.closest('.exp-card').querySelector('.show-more-btn');
+              if (otherBtn) {
+                otherBtn.classList.remove('open');
+                const otherText = otherBtn.querySelector('.btn-text');
+                if (otherText) otherText.textContent = 'More';
+              }
+            }
+          });
+
+          // Toggle current
+          wrapper.classList.toggle('expanded', !isOpen);
+          btn.classList.toggle('open', !isOpen);
+          btnText.textContent = isOpen ? 'More' : 'Less';
+
+          // Update slider height after animation
+          requestAnimationFrame(() => {
+            updateSliderHeight();
+            updateLayout();
+          });
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    // ── Slider state ──────────────────────────────────────────────
+    let slides = [];
+    let current = 0;
+    const sliderWrap = document.querySelector('.exp-slider-wrap');
+
+    function updateSliderHeight() {
+      if (sliderWrap && slides[current]) {
+        sliderWrap.style.height = slides[current].offsetHeight + 'px';
+      }
+    }
+
+    function updateLayout() {
+      const layout = document.querySelector('.exp-layout');
+      if (!layout || !slides[current]) return;
+      const cardHeight = slides[current].offsetHeight;
+      layout.classList.toggle('compact', cardHeight < 350);
     }
 
     function goTo(index) {
+      const total = slides.length;
+      if (!total) return;
       if (index < 0) index = total - 1;
       if (index >= total) index = 0;
       if (current === index) return;
 
-      /* collapse open detail on leaving slide */
+      // Collapse open detail on leaving slide
       const leavingCard = slides[current];
       const openWrapper = leavingCard.querySelector('.exp-detail-wrapper.expanded');
       if (openWrapper) {
@@ -187,49 +178,108 @@ window.addEventListener('partialsLoaded', function () {
         const openBtn = leavingCard.querySelector('.show-more-btn');
         if (openBtn) {
           openBtn.classList.remove('open');
-          openBtn.childNodes[0].textContent = 'More ';
+          const txt = openBtn.querySelector('.btn-text');
+          if (txt) txt.textContent = 'More';
         }
       }
 
-      /* update dots */
+      // Update dots
       const dots = dotsContainer.querySelectorAll('.exp-dot');
-      dots[current].classList.remove('active');
-      dots[index].classList.add('active');
+      if (dots[current]) dots[current].classList.remove('active');
+      if (dots[index]) dots[index].classList.add('active');
 
       current = index;
-      slidesContainer.style.transform = `translateX(-${current * 100}%)`;
+      container.style.transform = `translateX(-${current * 100}%)`;
       currentSpan.textContent = String(current + 1).padStart(2, '0');
       if (progressFill) {
         progressFill.style.width = `${((current + 1) / total) * 100}%`;
       }
 
-      updateWrapperHeight();
+      updateSliderHeight();
       updateLayout();
     }
 
-    /* set initial height + progress + layout */
-    if (progressFill) progressFill.style.width = `${(1 / total) * 100}%`;
-    updateWrapperHeight();
-    updateLayout();
+    // ── Initialise ────────────────────────────────────────────────
+    function initSlider() {
+      renderSlides();
+      slides = document.querySelectorAll('.exp-card');
+      const total = slides.length;
+      if (!total) return;
 
-    prevBtn.addEventListener('click', () => goTo(current - 1));
-    nextBtn.addEventListener('click', () => goTo(current + 1));
+      totalSpan.textContent = String(total).padStart(2, '0');
 
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') { goTo(current - 1); e.preventDefault(); }
-      if (e.key === 'ArrowRight') { goTo(current + 1); e.preventDefault(); }
-    });
+      // Build dots
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'exp-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsContainer.appendChild(dot);
+      }
 
-    /* touch swipe */
-    const wrap = document.querySelector('.exp-slider-wrap');
-    let touchStart = 0;
-    wrap?.addEventListener('touchstart', (e) => { touchStart = e.changedTouches[0].screenX; }, { passive: true });
-    wrap?.addEventListener('touchend', (e) => {
-      const delta = e.changedTouches[0].screenX - touchStart;
-      if (Math.abs(delta) > 45) delta > 0 ? goTo(current - 1) : goTo(current + 1);
-    });
+      // Set initial state
+      current = 0;
+      currentSpan.textContent = '01';
+      if (progressFill) progressFill.style.width = `${(1 / total) * 100}%`;
+      updateSliderHeight();
+      updateLayout();
+
+      // ── Controls ──────────────────────────────────────────────
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { goTo(current - 1); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { goTo(current + 1); e.preventDefault(); }
+      });
+
+      // Touch swipe
+      let touchStart = 0;
+      const wrap = document.querySelector('.exp-slider-wrap');
+      wrap?.addEventListener('touchstart', (e) => { touchStart = e.changedTouches[0].screenX; }, { passive: true });
+      wrap?.addEventListener('touchend', (e) => {
+        const delta = e.changedTouches[0].screenX - touchStart;
+        if (Math.abs(delta) > 45) delta > 0 ? goTo(current - 1) : goTo(current + 1);
+      });
+    }
+
+    // ── Handle resize (update bullets for mobile) ──────────────
+    let resizeTimer;
+    function handleResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        // Re‑render cards to update bullet count
+        const currentSlideIdx = current;
+        renderSlides();
+        slides = document.querySelectorAll('.exp-card');
+        // Update dots and go back to current slide
+        const total = slides.length;
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const dot = document.createElement('button');
+          dot.className = 'exp-dot' + (i === currentSlideIdx ? ' active' : '');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          dot.addEventListener('click', () => goTo(i));
+          dotsContainer.appendChild(dot);
+        }
+        container.style.transform = `translateX(-${currentSlideIdx * 100}%)`;
+        updateSliderHeight();
+        updateLayout();
+      }, 200);
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    // ── Start ────────────────────────────────────────────────────
+    initSlider();
   }
 
-  renderSlides();
-  initSlider();
-});
+  // ─── Attach or run immediately ──────────────────────────────────
+  // If the event has already been fired, run now; otherwise listen.
+  if (window._partialsLoaded) {
+    initExperienceSlider();
+  } else {
+    window.addEventListener('partialsLoaded', initExperienceSlider);
+  }
+})();
